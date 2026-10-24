@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Claude Code: курс от Ивана Янковского</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Onest:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f0e8;--card:#fffdf9;--ink:#2b2118;--mut:#6f6254;--line:#e6dccd;--or:#d97757;--or2:#c4623f;--ors:#fbe6dc;--code:#2b2118;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1915;--card:#2a2520;--ink:#f3ece2;--mut:#b3a595;--line:#3d352d;--or:#e8896a;--or2:#d97757;--ors:#3d2a20;--code:#14110e}}
+:root[data-theme="dark"]{--bg:#1d1915;--card:#2a2520;--ink:#f3ece2;--mut:#b3a595;--line:#3d352d;--or:#e8896a;--or2:#d97757;--ors:#3d2a20;--code:#14110e}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.65 Onest,system-ui,sans-serif;overflow-x:hidden}
+.w{max-width:900px;margin:0 auto;padding:0 18px}
+h1,h2,h3{font-family:Lora,Georgia,serif;letter-spacing:-.01em}
+h1{font-size:clamp(34px,8vw,62px);line-height:1.05;margin:0 0 14px;font-weight:700}
+h2{font-size:clamp(26px,5vw,36px);margin:0 0 10px;font-weight:700}
+h3{margin:0 0 4px;font-size:19px}
+section{padding:40px 0}.lead{font-size:18px;color:var(--mut);max-width:620px}
+.note{font-size:13px;color:var(--mut)}
+#pg{position:fixed;top:0;left:0;height:4px;width:0;background:var(--or);z-index:50}
+.glow{position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,var(--or) 0,transparent 68%);opacity:.22;filter:blur(30px);animation:fl 9s ease-in-out infinite;pointer-events:none;z-index:-1}
+@keyframes fl{50%{transform:translate(40px,30px) scale(1.15)}}
+.hero{position:relative;padding:46px 0 24px}
+.badge{display:inline-block;background:var(--ors);color:var(--or2);border-radius:99px;padding:5px 14px;font-weight:700;font-size:14px;margin-bottom:14px;animation:pop .7s both}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.95)}}
+.hero h1{animation:pop .8s .1s both}.hero .lead{animation:pop .8s .25s both}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0;animation:pop .8s .4s both}
+.buy{position:relative;overflow:hidden;display:inline-block;padding:17px 30px;border-radius:14px;background:var(--or);color:#fff;font-weight:800;font-size:18px;text-decoration:none;box-shadow:0 8px 0 var(--or2),0 14px 26px rgba(217,119,87,.4);animation:pulse 2.2s ease-in-out infinite;transition:transform .15s,box-shadow .15s}
+:root:not([data-theme="light"]) .buy{color:#1d1915}
+.buy::after{content:"";position:absolute;top:0;left:-70%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.6),transparent);transform:skewX(-20deg);animation:sh 3s infinite}
+@keyframes sh{60%,100%{left:130%}}
+@keyframes pulse{50%{transform:scale(1.04)}}
+.buy:hover{animation:none;transform:translateY(4px);box-shadow:0 4px 0 var(--or2),0 8px 18px rgba(217,119,87,.4)}
+.ghost{padding:17px 24px;border-radius:14px;border:2px solid var(--or);color:var(--or2);font-weight:700;text-decoration:none;transition:background .2s}
+.ghost:hover{background:var(--ors)}
+a:focus-visible,summary:focus-visible{outline:3px solid var(--or);outline-offset:3px}
+.term{background:var(--code);color:#f1e4d8;border-radius:16px;padding:16px;font:400 14px/1.7 "JetBrains Mono",monospace;min-height:190px;box-shadow:0 18px 40px rgba(43,33,24,.25);animation:pop .9s .5s both}
+.dots span{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;background:#5a4a3d}.dots span:first-child{background:var(--or)}
+.term .o{color:var(--or)}.term .g{color:#8fd19e}.cur{display:inline-block;width:8px;height:16px;background:var(--or);vertical-align:-3px;animation:bl 1s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0}
+.st{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center}.st b{font:700 34px Lora,serif;color:var(--or2);display:block}.st span{font-size:13px;color:var(--mut)}
+.mq{overflow:hidden;border-block:1px solid var(--line);padding:10px 0;margin:10px 0;white-space:nowrap}
+.mq div{display:inline-block;animation:mq 28s linear infinite}.mq span{margin:0 18px;color:var(--mut);font-weight:500}.mq span::before{content:"✦ ";color:var(--or)}
+@keyframes mq{to{transform:translateX(-50%)}}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s}.rv.in{opacity:1;transform:none}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:14px}
+.c{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;transition:transform .25s,box-shadow .25s,border-color .25s}
+.c:hover{transform:translateY(-6px) rotate(-.4deg);border-color:var(--or);box-shadow:0 14px 28px rgba(217,119,87,.2)}
+.ic{font-size:28px;display:block;margin-bottom:6px;transition:transform .3s}.c:hover .ic{transform:scale(1.25) rotate(8deg)}
+.c p{margin:0;color:var(--mut);font-size:15px}
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:8px 0;padding:0 16px;transition:border-color .2s}
+details[open]{border-color:var(--or)}
+summary{cursor:pointer;padding:14px 0;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:10px}
+summary::after{content:"+";color:var(--or);font-size:24px;line-height:1;transition:transform .3s}details[open] summary::after{transform:rotate(135deg)}
+details>div{padding:0 0 14px;animation:dn .35s}@keyframes dn{from{opacity:0;transform:translateY(-8px)}}
+details p{margin:0 0 8px}
+pre{background:var(--code);color:#f1e4d8;border-radius:10px;padding:12px;overflow-x:auto;font:400 13px/1.5 "JetBrains Mono",monospace;margin:8px 0}
+code{font-family:"JetBrains Mono",monospace;font-size:.88em;background:var(--ors);padding:1px 6px;border-radius:5px}pre code{background:none;padding:0}
+.tw{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:16px}
+table{border-collapse:collapse;width:100%;min-width:520px}th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);font-size:15px;vertical-align:top}
+tr:last-child td{border:0}th{color:var(--mut);font-weight:500}tbody tr{transition:background .2s}tbody tr:hover{background:var(--ors)}
+.tl{border-left:3px solid var(--or);margin:14px 0 0 8px;padding-left:20px}.tl div{margin-bottom:14px;position:relative}.tl div::before{content:"";position:absolute;left:-29px;top:6px;width:13px;height:13px;border-radius:50%;background:var(--or);box-shadow:0 0 0 5px var(--ors)}
+.paid{position:relative;background:var(--card);border:3px solid var(--or);border-radius:24px;padding:24px;overflow:hidden}
+.paid::before{content:"";position:absolute;inset:-60%;background:conic-gradient(from 0deg,transparent,var(--ors),transparent 30%);animation:spin 9s linear infinite;z-index:0}
+.paid>*{position:relative;z-index:1}@keyframes spin{to{transform:rotate(1turn)}}
+.paid::after{content:"";position:absolute;inset:3px;background:var(--card);border-radius:20px;z-index:0}
+.mods{display:grid;gap:8px;margin:14px 0;padding:0;list-style:none}
+.mods li{padding:12px 14px;background:var(--ors);border-radius:12px;transition:transform .2s}.mods li:hover{transform:translateX(8px)}.mods b{display:block}
+.prices{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:18px 0}
+.pr{background:var(--ors);border-radius:16px;padding:16px;text-align:center;transition:transform .2s}.pr:hover{transform:scale(1.06)}
+.pr b{display:block;font:700 30px Lora,serif;color:var(--or2)}.pr span{color:var(--mut);font-size:13px}
+.steps{padding-left:20px}.steps li{margin:4px 0}
+.fab{position:fixed;left:0;right:0;bottom:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));display:flex;justify-content:center;z-index:40;transform:translateY(120%);transition:transform .4s;pointer-events:none}
+.fab.on{transform:none}.fab .buy{pointer-events:auto;padding:14px 26px;font-size:16px;box-shadow:0 5px 0 var(--or2),0 10px 22px rgba(0,0,0,.25)}
+footer{padding:28px 0 90px;border-top:1px solid var(--line);color:var(--mut);font-size:14px}a{color:var(--or2);font-weight:500}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style></head><body>
+<div id="pg"></div>
+<div class="w">
+
+<div class="hero"><div class="glow" style="top:-80px;right:-120px"></div>
+<span class="badge">Автор курса: Иван Янковский</span>
+<h1>Научитесь делать с Claude Code то, на что раньше уходили дни</h1>
+<p class="lead">ИИ-агент, который читает ваш проект, пишет и правит код, запускает тесты и коммитит. Начните бесплатно за 15 минут, а затем возьмите продвинутый курс с готовыми шаблонами.</p>
+<div class="ctas"><a class="buy" href="#paid">Купить продвинутый курс</a><a class="ghost" href="#free">Начать бесплатно</a></div>
+<div class="term" aria-label="Пример работы в терминале"><div class="dots"><span></span><span></span><span></span></div><div id="tt"></div></div>
+<div class="stats"><div class="st"><b data-n="13">0</b><span>модулей в продвинутом курсе</span></div><div class="st"><b data-n="15">0</b><span>минут на бесплатный курс</span></div><div class="st"><b data-n="3">0</b><span>способа оплаты</span></div></div>
+</div>
+
+<div class="mq"><div><span>CLAUDE.md</span><span>Plan Mode</span><span>Хуки</span><span>Субагенты</span><span>MCP</span><span>Навыки (skills)</span><span>Git worktree</span><span>Headless-режим</span><span>ChatGPT и Gemini</span><span>CLAUDE.md</span><span>Plan Mode</span><span>Хуки</span><span>Субагенты</span><span>MCP</span><span>Навыки (skills)</span><span>Git worktree</span><span>Headless-режим</span><span>ChatGPT и Gemini</span></div></div>
+
+<section class="rv"><h2>Что умеет Claude Code</h2>
+<div class="grid">
+<div class="c"><span class="ic">🧭</span><h3>Разбирается в коде</h3><p>Изучает структуру проекта и объясняет, как всё устроено, даже в чужой кодовой базе.</p></div>
+<div class="c"><span class="ic">✍️</span><h3>Пишет и правит</h3><p>Создаёт файлы, делает правки сразу в нескольких местах, рефакторит.</p></div>
+<div class="c"><span class="ic">🧪</span><h3>Запускает и проверяет</h3><p>Гоняет тесты и линтеры, читает ошибки и исправляет их сам.</p></div>
+<div class="c"><span class="ic">🌿</span><h3>Работает с git</h3><p>Смотрит diff, пишет сообщения коммитов, помогает с ветками и PR.</p></div>
+<div class="c"><span class="ic">🔌</span><h3>Подключает сервисы</h3><p>Через MCP достаёт данные из GitHub, баз данных, трекеров задач.</p></div>
+<div class="c"><span class="ic">🤖</span><h3>Автоматизируется</h3><p>Запускается из скриптов и CI, не требуя диалога.</p></div>
+</div></section>
+
+<section class="rv"><h2>Где можно пользоваться</h2>
+<p class="lead" style="font-size:16px">Claude Code доступен в терминале, в десктопном приложении, в редакторах кода (VS Code, JetBrains) и в мобильном приложении Claude на вкладке Code. Нужна подписка Claude или ключ API.</p></section>
+
+<section id="free" class="rv"><h2>Бесплатный курс: основы</h2>
+<p class="note">Коротко обо всём. Подробности, шаблоны и готовые конфиги в продвинутом курсе.</p>
+<details open><summary>1. Что такое Claude Code</summary><div><p>Агент для программирования от Anthropic. Вы описываете задачу обычным языком, он изучает проект, предлагает изменения и вносит их с вашего разрешения.</p></div></details>
+<details><summary>2. Установка и первый запуск</summary><div><ol class="steps"><li>Заведите аккаунт Claude (подписка) или получите ключ API.</li><li>Установите по инструкции на docs.claude.com. Один из способов:</li></ol><pre><code>npm install -g @anthropic-ai/claude-code</code></pre><ol class="steps" start="3"><li>В папке проекта введите <code>claude</code> и войдите в аккаунт.</li></ol></div></details>
+<details><summary>3. Как ставить задачи</summary><div><p>Конкретно: что сделать, где, как проверить. Плохо: «исправь баг». Хорошо: «Кнопка «Купить» на /cart не реагирует. Найди причину, исправь, запусти тесты».</p><p>Для сложного сначала просите изучить и предложить план.</p></div></details>
+<details><summary>4. Режимы работы</summary><div><p><code>Shift+Tab</code> переключает режимы. <b>Обычный</b> спрашивает разрешение. <b>Accept Edits</b> сам принимает правки файлов. <b>Plan Mode</b> только исследует и предлагает план.</p></div></details>
+<details><summary>5. CLAUDE.md, память проекта</summary><div><p>Файл в корне проекта с правилами: команды запуска, стиль, запреты. Claude читает его при каждом старте. Команда <code>/init</code> создаёт заготовку.</p></div></details>
+<details><summary>6. Главные команды</summary><div><p><code>/help</code> список. <code>/clear</code> новая тема. <code>/compact</code> сжать историю. <code>/model</code> выбор модели. <code>/memory</code> правка CLAUDE.md. <code>/mcp</code> сервисы. <code>/agents</code> субагенты. <code>/hooks</code> автодействия.</p></div></details>
+<details><summary>7. Что дальше: MCP, субагенты, хуки</summary><div><p><b>MCP</b> подключает внешние сервисы. <b>Субагенты</b> это узкие помощники вроде ревьюера. <b>Хуки</b> запускают ваши команды в нужный момент. Настройка есть в продвинутом курсе.</p></div></details>
+<details><summary>8. Безопасность</summary><div><p>Не давайте доступ к боевым ключам и базам без нужды, читайте команды перед разрешением и работайте в git, чтобы всё можно было откатить.</p></div></details>
+</section>
+
+<section class="rv"><h2>Горячие клавиши и приёмы</h2>
+<div class="tw"><table><tbody>
+<tr><td><code>Shift+Tab</code></td><td>Переключить режим: обычный, Accept Edits, Plan Mode</td></tr>
+<tr><td><code>Esc</code></td><td>Остановить Claude на полуслове</td></tr>
+<tr><td><code>Esc Esc</code> или <code>/rewind</code></td><td>Откатить диалог и код к прошлой точке</td></tr>
+<tr><td><code>@файл</code></td><td>Подтянуть конкретный файл в запрос</td></tr>
+<tr><td><code>!команда</code></td><td>Выполнить shell-команду прямо в диалоге</td></tr>
+<tr><td><code>/</code></td><td>Список всех команд</td></tr>
+</tbody></table></div></section>
+
+<section class="rv"><h2>День с Claude Code</h2>
+<div class="tl"><div><b>Утро. Разобраться.</b><br>«Изучи модуль оплаты и объясни, где риск». Без правок, только чтение.</div><div><b>План.</b><br>Включаете Plan Mode, обсуждаете подход, утверждаете.</div><div><b>Реализация.</b><br>Accept Edits, Claude пишет код и сам гоняет тесты.</div><div><b>Проверка.</b><br>Субагент-ревьюер смотрит diff на баги и уязвимости.</div><div><b>Коммит.</b><br>Claude предлагает сообщение, вы читаете diff и подтверждаете.</div></div></section>
+
+<section class="rv"><h2>Какая модель для чего</h2>
+<p class="note">Список на момент публикации. Актуальные модели смотрите в <code>/model</code> и на docs.claude.com.</p>
+<div class="tw"><table><tbody>
+<tr><td><b>Haiku 5.5</b></td><td>Быстрые и дешёвые задачи: переименования, мелкие правки, простые вопросы.</td></tr>
+<tr><td><b>Sonnet 5.5</b></td><td>Основная модель для повседневной разработки, баланс скорости и качества.</td></tr>
+<tr><td><b>Opus 5.5</b></td><td>Сложные задачи: архитектура, трудные баги, большие рефакторинги.</td></tr>
+<tr><td><b>Fable 5.1</b></td><td>Самый мощный публичный класс для самых трудных задач, с дополнительными ограничениями безопасности.</td></tr>
+</tbody></table></div>
+<p class="note">Правило: начните с Sonnet, берите Opus, когда задача сложная, и Haiku, когда важны скорость и цена.</p></section>
+
+<section id="paid" class="rv"><div class="paid">
+<span class="badge">Продвинутый курс</span>
+<h2>Claude Code без воды</h2>
+<p>Всё подробно, с готовыми шаблонами для копирования в проект. Только то, что реально применимо: от настройки до собственных сайтов, приложений, ботов и роликов. В комплекте схемы со стрелочками: что и куда нажимать, чтобы опубликовать сайт на GitHub и создать Telegram-бота.</p>
+<ul class="mods">
+<li><b>1. Настройка проекта</b>Шаблоны CLAUDE.md, структура .claude/, права в settings.json.</li>
+<li><b>2. Контекст и деньги</b>Когда /clear и /compact, как выбирать модель и экономить.</li>
+<li><b>3. Хуки</b>Автоформатирование, блокировка опасных команд, уведомления. Рабочие конфиги.</li>
+<li><b>4. Субагенты и навыки</b>Ревьюер, тестировщик, свои команды на повторяющиеся задачи.</li>
+<li><b>5. MCP</b>Подключение GitHub и баз данных, безопасная настройка.</li>
+<li><b>6. Параллельность и автоматизация</b>Несколько сессий через git worktree, режим <code>claude -p</code>, CI.</li>
+<li><b>7. Шаблоны запросов</b>Формулы для багов, фич, рефакторинга, ревью, обучения по чужому коду.</li>
+<li><b>8. Безопасность и ошибки</b>Защита секретов, откаты, частые промахи новичков.</li>
+<li><b>9. Вирусные ролики 🎬</b>Как придумывать идеи и цепляющие первые 3 секунды, писать сценарии для Shorts, Reels и TikTok, делать контент-план и автоматизировать монтаж кодом.</li>
+<li><b>10. Создание сайтов 🌐</b>От идеи до публикации: лендинг, адаптив, анимации, форма заявок, выкладка в интернет. Как поставить задачу так, чтобы получить красивый результат.</li>
+<li><b>11. Создание приложений 📱</b>Веб-приложения, которые ставятся на телефон как обычные, и основы мобильной разработки. Как вести проект от прототипа до запуска.</li>
+<li><b>12. Telegram-боты 🤖</b>Бот с нуля: кнопки, база данных, админка, приём оплаты в Telegram Stars, размещение на сервере. Идеи ботов, на которых можно заработать.</li>
+<li><b>13. 10 лучших ИИ-помощников 🧠</b>ChatGPT, Claude, Gemini, Grok, Perplexity, DeepSeek, Copilot, Mistral, NotebookLM, Алиса. Чем один лучше другого, что для чего брать, приёмы для каждого и как связывать их в одну рабочую цепочку.</li>
+</ul>
+<p class="note">Результаты роликов и продаж зависят от вашей работы и ниши. Гарантировать просмотры или доход нельзя, но курс даёт рабочие методы и готовые заготовки.</p>
+<p><b>Для кого:</b> разработчики, студенты, фрилансеры и все, кто хочет ускорить работу с кодом. Опыт программирования желателен.</p>
+<div class="prices"><div class="pr"><b>599 ₽</b><span>рублями</span></div><div class="pr"><b>300 ⭐</b><span>звёздами Telegram</span></div><div class="pr"><b>5 $</b><span>в USDT</span></div></div>
+<ol class="steps"><li>Напишите в Telegram @zewsssse.</li><li>Выберите способ оплаты и оплатите.</li><li>Получите материалы курса в чат.</li></ol>
+<p style="text-align:center;margin:22px 0 4px"><a class="buy" href="https://t.me/zewsssse" target="_blank" rel="noopener">Купить продвинутый курс</a></p>
+</div></section>
+
+<section class="rv"><h2>Частые вопросы</h2>
+<details><summary>Нужен ли опыт программирования?</summary><div><p>Для бесплатной части нет. Для продвинутого курса базовое понимание кода и терминала сильно поможет.</p></div></details>
+<details><summary>Что нужно, чтобы пользоваться Claude Code?</summary><div><p>Аккаунт с подходящей подпиской Claude или ключ API. Актуальные условия смотрите на сайте Anthropic.</p></div></details>
+<details><summary>В каком формате материалы?</summary><div><p>Текстовый документ с шаблонами и конфигами, который вы получите в Telegram после оплаты.</p></div></details>
+<details><summary>Курс обновляется?</summary><div><p>Claude Code быстро развивается. Если что-то изменится, напишите мне, и я подскажу актуальный вариант.</p></div></details>
+</section>
+
+<footer><b>Иван Янковский</b>, автор курса. Вопросы: <a href="https://t.me/zewsssse" target="_blank" rel="noopener">@zewsssse</a>.<br>Проект не связан с Anthropic. Claude и Claude Code принадлежат Anthropic. Проверяйте актуальную документацию на docs.claude.com.</footer>
+</div>
+<div class="fab" id="fab"><a class="buy" href="#paid">Купить продвинутый курс</a></div>
+<script>
+var L=[["$ claude","o"],["> Найди, почему падает тест оплаты","g"],["Читаю src/payments/checkout.ts ...","" ],["Нашёл: не обрабатывается пустая корзина.","" ],["Исправляю и запускаю тесты ...","" ],["✓ 24 теста пройдено","g"]];
+(function(){var el=document.getElementById("tt"),i=0,rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+function show(){el.innerHTML=L.map(function(l){return'<div class="'+l[1]+'">'+l[0]+'</div>'}).join("")}
+if(rm){show();return}
+function next(){if(i>=L.length){setTimeout(function(){el.innerHTML="";i=0;next()},3500);return}
+var d=document.createElement("div");d.className=L[i][1];el.appendChild(d);var t=L[i][0],k=0;
+(function ty(){d.textContent=t.slice(0,k)+(k<t.length?"":"");if(k<t.length){k++;setTimeout(ty,28)}else{i++;setTimeout(next,450)}})()}
+next()})();
+try{var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll(".rv").forEach(function(x){io.observe(x)});
+var co=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var n=e.target,t=+n.dataset.n,s=0;var h=setInterval(function(){s++;n.textContent=s;if(s>=t)clearInterval(h)},900/t);co.unobserve(n)}})});
+document.querySelectorAll("[data-n]").forEach(function(x){co.observe(x)})}catch(e){document.querySelectorAll(".rv").forEach(function(x){x.classList.add("in")});document.querySelectorAll("[data-n]").forEach(function(x){x.textContent=x.dataset.n})}
+addEventListener("scroll",function(){var h=document.documentElement,p=h.scrollTop/(h.scrollHeight-h.clientHeight);document.getElementById("pg").style.width=(p*100)+"%";document.getElementById("fab").classList.toggle("on",h.scrollTop>600&&document.getElementById("paid").getBoundingClientRect().top>innerHeight*0.6)},{passive:true});
+</script></body></html>
